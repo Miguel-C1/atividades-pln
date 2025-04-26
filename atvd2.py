@@ -1,6 +1,6 @@
 import re
 
-def tokenizar(texto: str, modo: str='simples') -> list:
+def tokenizar(texto: str, modo: int=1) -> list:
     """
     Função para tokenizar um texto usando expressão regular.
     
@@ -11,11 +11,11 @@ def tokenizar(texto: str, modo: str='simples') -> list:
     Retorno:
     - lista de tokens
     """
-    if modo == 'simples':
+    if modo == 1:
         padrao = r'\w+'
-    elif modo == 'pontuacao':
+    elif modo == 2:
         padrao = r'\w+|[^\w\s]'
-    elif modo == 'avancado':
+    elif modo == 3:
         # Palavras considerando contrações, sinais separados
         padrao = r'\w+(?:[’\']\w+)?|[^\w\s]'
     else:
@@ -30,13 +30,13 @@ print("=== Texto original ===")
 print(texto_exemplo)
 
 print("=== Tokenização Simples ===")
-print(tokenizar(texto_exemplo, modo='simples'))
+print(tokenizar(texto_exemplo, modo=1))
 print("=================================")
 
 print("=== Tokenização com Pontuação ===")
-print(tokenizar(texto_exemplo, modo='pontuacao'))
+print(tokenizar(texto_exemplo, modo=2))
 print("=================================")
 
 print("=== Tokenização Avançada (tratando contrações) ===")
-print(tokenizar(texto_exemplo, modo='avancado'))
+print(tokenizar(texto_exemplo, modo=3))
 print()
