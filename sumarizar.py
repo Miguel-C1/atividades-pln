@@ -1,6 +1,8 @@
 import torch
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 import time
+import re
+
 
 def carregar_modelo():
     """
@@ -22,7 +24,22 @@ def carregar_modelo():
     print("Modelo carregado com sucesso!")
     return modelo, tokenizer, device
 
-def resumir(modelo, tokenizer, device, texto: str, max_length: int = 150, min_length: int = 50, num_beams: int = 5):
+def preprocessar_texto(texto: str) -> str:
+    """
+    Realiza uma limpeza e normalização básica no texto de entrada.
+    """
+    texto = texto.replace('\t', ' ')
+    texto = re.sub(r'\n+', '\n', texto) 
+    texto = texto.replace('‑', '-') 
+    texto = texto.replace(' ', ' ') 
+    texto = re.sub(r'\s{2,}', ' ', texto)
+    texto = re.sub(r'https?://\S+|www\.\S+', '', texto)
+    texto = re.sub(r'<.*?>', '', texto)
+    texto = texto.strip()
+    
+    return texto
+
+def resumir(modelo, tokenizer, device, texto: str, max_length: int = 400, min_length: int = 50, num_beams: int = 5):
     """
     Gera um resumo abstrativo do texto fornecido.
     
@@ -36,7 +53,7 @@ def resumir(modelo, tokenizer, device, texto: str, max_length: int = 150, min_le
         num_beams: O número de "feixes" para o beam search (melhora a qualidade).
     """
 
-    inputs = tokenizer(texto, return_tensors="pt", max_length=1024, truncation=True).to(device)
+    inputs = tokenizer(texto, return_tensors="pt", max_length=2048, truncation=True).to(device)
     
     summary_ids = modelo.generate(
         inputs["input_ids"],
@@ -65,17 +82,21 @@ if __name__ == "__main__":
         print("Crie o arquivo e insira o texto a ser resumido.")
         exit()
 
+    print("Aplicando pré-processamento de limpeza no texto...")
+    texto_original_processado = preprocessar_texto(texto_original)
+    print("Pré-processamento concluído.\n")
+
     print("Iniciando o processo de sumarização...")
     start_time = time.time()
-    resumo_gerado = resumir(modelo, tokenizer, device, texto_original)
+    resumo_gerado = resumir(modelo, tokenizer, device, texto_original_processado)
     end_time = time.time()
     print(f"Tempo de sumarização: {end_time - start_time:.2f} segundos.\n")
 
-    palavras_original = len(texto_original.split())
+    palavras_original = len(texto_original_processado.split())
     palavras_resumo = len(resumo_gerado.split())
     
     print("="*20 + " TEXTO ORIGINAL " + "="*20)
-    print(texto_original)
+    print(texto_original_processado)
     print(f"\n(Contagem de palavras: {palavras_original})\n")
     
     print("="*20 + " RESUMO ABSTRATIVO GERADO " + "="*20)
