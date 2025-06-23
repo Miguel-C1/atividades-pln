@@ -1,6 +1,6 @@
-# Resumo Automático com mBART
+# Resumo Automático com T5
 
-Projeto de geração de resumo automático usando o modelo `facebook/mbart-large-50-many-to-many-mmt` da Meta (Facebook AI), com suporte à língua portuguesa. Utiliza a biblioteca `transformers` da Hugging Face.
+Projeto de geração de resumo automático usando o modelo `unicamp-dl/ptt5-base-portuguese-vocab`, baseado na arquitetura T5, com suporte à língua portuguesa. Utiliza a biblioteca `transformers` da Hugging Face.
 
 ---
 
@@ -13,46 +13,55 @@ Projeto de geração de resumo automático usando o modelo `facebook/mbart-large
 
 ## Funções
 
-### `Carregar_modelo`
+### `carregar_modelo`
 
-Carrega o modelo mBART pré-treinado e configura o idioma para português.
+Carrega o modelo T5 pré-treinado e configura o idioma para português.
 
 - Detecta automaticamente o uso de CPU ou GPU.
 - Carrega o tokenizer correspondente.
-- Define os idiomas de origem e destino como `pt_XX` (português).
+- Usa o modelo da Unicamp adaptado ao vocabulário em português.
 
 ---
 
-### `Resumir`
+### `resumir`
 
 Gera um resumo abstrativo para um texto fornecido em português.
 
 **Parâmetros:**
 
-- `modelo`: instância carregada do mBART
-- `tokenizer`: tokenizer configurado
-- `device`: `"cpu"` ou `"cuda"`
-- `texto`: texto de entrada
-- `max_length`: comprimento máximo do resumo
-- `min_length`: comprimento mínimo do resumo
+- `model`: instância carregada do T5  
+- `tokenizer`: tokenizer configurado  
+- `device`: `"cpu"` ou `"cuda"`  
+- `texto`: texto de entrada  
+- `max_length`: comprimento máximo do resumo  
+- `min_length`: comprimento mínimo do resumo  
 - `num_beams`: número de feixes (beam search)
 
 ---
 
-### `Preprocessar_texto`
+### `preprocessar_texto`
 
-Realiza uma limpeza e normalização básica do texto de entrada antes de gerar o resumo.  
-Remove tabulações, espaços duplicados, URLs, HTML, colchetes, e substitui certos caracteres.
+Realiza uma limpeza e normalização básica do texto de entrada antes de gerar o resumo.
 
 **Etapas de pré-processamento incluem:**
 
 - Remoção de tabulações (`\t`)
-- Substituição de `;` por `.`
-- Remoção de colchetes `[]`
-- Remoção de múltiplos espaços
+- Substituição de caracteres especiais (como `‑` e ` `)
+- Remoção de múltiplos espaços e quebras de linha redundantes
 - Remoção de URLs e tags HTML
-- Remoção de quebras de linha desnecessárias
-- Strip final para limpar espaços no início/fim do texto
+- Limpeza de espaços no início e fim do texto
+
+---
+
+### `gerar_estatisticas_simples`
+
+Exibe estatísticas básicas sobre o processo de sumarização.
+
+**Inclui:**
+
+- Contagem de palavras do texto original  
+- Contagem de palavras do resumo  
+- Taxa de compressão (% de redução do texto)
 
 ---
 
@@ -65,4 +74,4 @@ Remove tabulações, espaços duplicados, URLs, HTML, colchetes, e substitui cer
 ---
 
 ## Video de Explicação
-- https://www.youtube.com/watch?v=BkCWqCvcYWs
+- [Clique Aqui!](https://www.youtube.com/watch?v=sqBBRNDe1fk)
