@@ -13,7 +13,7 @@ Projeto de geração de resumo automático usando o modelo `facebook/mbart-large
 
 ## Funções
 
-### `carregar_modelo()`
+### `Carregar_modelo`
 
 Carrega o modelo mBART pré-treinado e configura o idioma para português.
 
@@ -23,7 +23,7 @@ Carrega o modelo mBART pré-treinado e configura o idioma para português.
 
 ---
 
-### `resumir(modelo, tokenizer, device, texto: str, max_length=150, min_length=50, num_beams=5)`
+### `Resumir`
 
 Gera um resumo abstrativo para um texto fornecido em português.
 
@@ -39,7 +39,7 @@ Gera um resumo abstrativo para um texto fornecido em português.
 
 ---
 
-### `preprocessar_texto(texto: str) -> str`
+### `Preprocessar_texto`
 
 Realiza uma limpeza e normalização básica do texto de entrada antes de gerar o resumo.  
 Remove tabulações, espaços duplicados, URLs, HTML, colchetes, e substitui certos caracteres.
