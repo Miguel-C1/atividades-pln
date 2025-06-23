@@ -61,3 +61,8 @@ Remove tabulações, espaços duplicados, URLs, HTML, colchetes, e substitui cer
 1. Coloque o texto desejado no arquivo `texto_original.txt`.
 2. Instale as dependencias com pip install (use venv caso não queira instalar globalmente)
 3. Por fim use o comando python main
+
+---
+
+## Video de Explicação
+- https://www.youtube.com/watch?v=BkCWqCvcYWs
